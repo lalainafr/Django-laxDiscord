@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .models import Room # importer le modele
+from .models import Room, Topic # importer le modele
 from .forms import RoomForm
 
 
@@ -13,10 +13,24 @@ from .forms import RoomForm
 # ]
 
 def home(request):
-    # model manager 'Object' to make a query with the model
-    rooms = Room.objects.all() # provides all Rooms in the database
 
-    context = {'rooms': rooms}
+    # q = whatever we passed in the url
+    q = request.GET.get('q') if request.GET.get('q') != None else ''
+
+    # provides filtered Rooms in the database
+    # topic__name = value of topic.name
+    # topic__name__icontains = value contained in topic.name
+    rooms = Room.objects.filter(topic__name__icontains = q) 
+
+    # model manager 'Object' to make a query with the model
+    # rooms = Room.objects.all() # provides all Rooms in the database
+
+    # liste des topic à mettre sur le sodebar pour le search
+    topics = Topic.objects.all()
+
+
+
+    context = {'rooms': rooms, 'topics': topics}
     # passer les données de la liste dans le template
     return render(request,'home.html', context)
 
