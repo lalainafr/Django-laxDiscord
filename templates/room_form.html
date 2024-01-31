@@ -1,0 +1,20 @@
+<!-- form to CREATE and UPDATE room -->
+
+{% extends 'partials/main.html' %}
+
+{% block content %}
+
+<div>
+    <!-- POST method for creating and updating - redirect to current page -->
+    <form method="POST" action="">
+        <!-- a token is sent everytime the form is submited -->
+        <!-- security against cross site- attack -->
+        {% csrf_token %}
+        
+        <!-- mettre en place RoomForm -->
+        {{form.as_p}} 
+
+        <input type="submit" value="Submit">
+    </form>    
+</div>
+{% endblock %}

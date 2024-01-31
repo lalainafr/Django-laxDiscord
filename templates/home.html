@@ -6,6 +6,9 @@
 <h1>Home template</h1>
 
 <div>
+    <a href={% url 'create-room' %}>Create Room</a>
+    <p></p>
+
     <div>
         {% for room in rooms %}
             <div>
@@ -18,10 +21,10 @@
                 </h5>
                 <p>{{room.description}}</p>
                 <small>{{room.topic.name}}</small>
-                <hr>
+                <hr>    
             </div>
-        {% endfor %}
-    </div>
+            {% endfor %}
+        </div>
 </div>
 
 {% endblock %}

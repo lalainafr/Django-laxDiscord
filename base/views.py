@@ -1,5 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import Room # importer le modele
+from .forms import RoomForm
+
 
 # Create your views here.
 
@@ -27,3 +29,17 @@ def room(request, pk): # on passe le primary pour la valeur dynamique en paramè
     context = {'room': room}
 
     return render(request,'room.html', context)
+
+def createRoom(request):
+    form = RoomForm() # importer le formulare
+
+    if request.method =='POST':
+        # print(request.POST) # Les donnees du form
+        # print(request.POST.get('name')) # Les donnees d'un field dans le form
+        form = RoomForm(request.POST)
+        if form.is_valid(): # verifier si les données sont valides
+            form.save() # on enregistre les données dans la BDD
+            return redirect('home') # rediriger vers la page d'accueil
+
+    context = {'form': form}
+    return render (request, 'room_form.html', context)
