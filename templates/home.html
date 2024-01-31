@@ -19,7 +19,6 @@
     <div>
         <h3>Browse Topic</h3>
         <hr>
-
         <div>
             <a href="{% url 'home' %}">All</a>
         </div>
@@ -35,6 +34,8 @@
     
     <!-- Content- list of rooms-->
     <div>
+        <!-- # compter le nombre de Room -->
+        <h5>{{room_count}} rooms available </h5>
         <!-- # rediriger vers create-room  -->
         <a href="{% url 'create-room' %}"">Create Room</a>
         {% for room in rooms %}

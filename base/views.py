@@ -37,10 +37,12 @@ def home(request):
     # liste des topic à mettre sur le sodebar pour le search
     topics = Topic.objects.all()
 
+    # compter le nombre de room et le passer dans le context pour le template
+    room_count = rooms.count()
 
+    context = {'rooms': rooms, 'topics': topics, 'room_count': room_count}
+    # données à faire passer danns le template
 
-    context = {'rooms': rooms, 'topics': topics}
-    # passer les données de la liste dans le template
     return render(request,'home.html', context)
 
 def room(request, pk): # on passe le primary pour la valeur dynamique en paramètre)
