@@ -1,0 +1,20 @@
+<!-- le template servira pour effectuer un delete sur n'importe quel objet (message, room...) -->
+
+<!-- On met une confirmation "ARE YOU SURE YOU WANT TO DELETE" -->
+<!-- Interface de confirmation avant la suppression definitive -->
+
+{% extends 'partials/main.html' %}
+
+{% block content%}
+
+<form method="POST" action="">
+    {% csrf_token %}
+    <p>Are you sure you wan tto delete "{{obj}}?"</p>
+    
+    <!-- rediriger vers la page précedente -->
+    <a href="{{request.META.HTTP_REFERER}}">Go Back</a>
+
+    <input type="submit" value="Confirm">
+</form>
+
+{% endblock %}

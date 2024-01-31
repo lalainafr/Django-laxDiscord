@@ -66,3 +66,14 @@ def updateRoom(request, pk): # pk to know which item will be updated
     context = {'form': form}
     return render (request, 'room_form.html', context)
 
+def deleteRoom(request, pk):
+
+    # savoir le room à supprimer
+    room = Room.objects.get(id = pk)
+    if request.method == 'POST':
+        room.delete() # on supprimer le room de l'id conncerné
+        return redirect('home')
+    
+    # on passe en context l'objet room à supprimer
+    return render(request, 'delete.html', {'obj': room})
+

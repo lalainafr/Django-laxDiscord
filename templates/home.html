@@ -6,15 +6,17 @@
 <h1>Home template</h1>
 
 <div>
+    <h3>ROOM</h3>
     <!-- # rediriger vers create-room  -->
-    <a href="{% url 'create-room' %}"">Create Room</a>
+    <a href="{% url 'create-room' %}"">Create</a>
     <p></p>
     
     <div>
         {% for room in rooms %}
         <div>
             <!-- # rediriger vers update-room avec room.id en parametre     -->
-            <a href="{% url 'update-room' room.id %}">Update Room</a>
+            <a href="{% url 'update-room' room.id %}">Update</a>
+            <a href="{% url 'delete-room' room.id %}">Delete</a>
 
                 <!-- Faire un query à partir du modele parent (room) -->
                 <span>@{{room.host.username}}</span>
