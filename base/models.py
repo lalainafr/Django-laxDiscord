@@ -26,6 +26,13 @@ class Room(models.Model):
         #auto_now=True -> take a timestampevery time we save the instance
     created = models.DateTimeField(auto_now_add=True)
         #auto_now_add=True -> take  a timestamp when we first save or create the instance
+    
+
+    # render new item first
+    class Meta:
+        ordering = ['-updated', '-created']
+        # reverse ordering
+        # order to show the newest room first
 
     # string representation of the class
     def __str__(self):
