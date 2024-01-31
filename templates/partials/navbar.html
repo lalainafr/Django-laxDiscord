@@ -3,4 +3,12 @@
     <h1>LOGO</h1>
 </a>
 
+<!-- searchForm -->
+<!-- no need csrf token -> GET method -->
+<form method="GET" action="{% url 'home' %}">
+
+    <!-- take what we the user type in the empty field and throw it to the url -->
+    <input type="text" name="q" placeholder="Search Rooms... "/>
+
+</form>
 <hr>

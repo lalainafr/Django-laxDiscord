@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
+from django.db.models import Q # import the Q lookup method
 from .models import Room, Topic # importer le modele
 from .forms import RoomForm
-
 
 # Create your views here.
 
@@ -17,10 +17,19 @@ def home(request):
     # q = whatever we passed in the url
     q = request.GET.get('q') if request.GET.get('q') != None else ''
 
-    # provides filtered Rooms in the database
+    # Q llookup method
+    rooms = Room.objects.filter(
+        # on peux faire plusieurs filtre avec le '&' ou '|'
+        # -> contient le contenu du 'q' soit sur le topic, la description  ou le nom du room
+        Q(topic__name__icontains = q) |
+        Q(name__icontains = q) |
+        Q(description__icontains = q) 
+        ) 
+    
+    # provides filtered Rooms in the database by topic name
     # topic__name = value of topic.name
     # topic__name__icontains = value contained in topic.name
-    rooms = Room.objects.filter(topic__name__icontains = q) 
+    # rooms = Room.objects.filter(topic__name__icontains = q) 
 
     # model manager 'Object' to make a query with the model
     # rooms = Room.objects.all() # provides all Rooms in the database
