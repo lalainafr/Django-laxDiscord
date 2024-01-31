@@ -30,6 +30,8 @@ def room(request, pk): # on passe le primary pour la valeur dynamique en paramè
 
     return render(request,'room.html', context)
 
+
+# C R U D 
 def createRoom(request):
     form = RoomForm() # importer le formulare
 
@@ -43,3 +45,24 @@ def createRoom(request):
 
     context = {'form': form}
     return render (request, 'room_form.html', context)
+
+def updateRoom(request, pk): # pk to know which item will be updated
+    # query the room be updated
+    room = Room.objects.get(id = pk)
+
+    # le formulaire sera pré propulé des donnés du room de l'id qui correspond à pk
+    form = RoomForm(instance=room) 
+
+    if request.method =='POST':
+        # print(request.POST) # Les donnees du form
+        # print(request.POST.get('name')) # Les donnees d'un field dans le form
+
+        # specifier le Room to be processed
+        form = RoomForm(request.POST, instance=room)
+        if form.is_valid(): # verifier si les données sont valides
+            form.save() # on enregistre les données dans la BDD
+            return redirect('home') # rediriger vers la page d'accueil
+
+    context = {'form': form}
+    return render (request, 'room_form.html', context)
+

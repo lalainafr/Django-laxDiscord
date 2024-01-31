@@ -6,5 +6,6 @@ urlpatterns = [
     path('room/<str:pk>/', views.room, name="room"),
     # on passe une valeur dynamique dans l'url (primary key)
     
-    path('create-room/', views.createRoom, name="create-room")
+    path('create-room/', views.createRoom, name="create-room"),
+    path('update-room/<str:pk>', views.updateRoom, name="update-room")
 ]
