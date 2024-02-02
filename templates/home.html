@@ -40,10 +40,12 @@
         <a href="{% url 'create-room' %}"">Create Room</a>
         {% for room in rooms %}
         <div>
-            <!-- # rediriger vers update-room avec room.id en parametre     -->
-            <a href="{% url 'update-room' room.id %}">Update</a>
-            <a href="{% url 'delete-room' room.id %}">Delete</a>
-
+            <!-- delete/ update only for the room owner -->
+            {% if request.user == room.host %}
+                <!-- # rediriger vers update-room avec room.id en parametre     -->
+                <a href="{% url 'update-room' room.id %}">Update</a>
+                <a href="{% url 'delete-room' room.id %}">Delete</a>
+            {% endif %}
                 <!-- Faire un query à partir du modele parent (room) -->
                 <span>@{{room.host.username}}</span>
                 <h5> {{room.id}} - 

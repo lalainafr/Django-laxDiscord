@@ -19,6 +19,10 @@ from django.http import HttpResponse
 
 # formualire de login
 def loginPage(request):
+
+    if request.user.is_autheticated:
+        return redirect('home')
+
     # traiter le formulaire
     if request.method == 'POST':
         # Récuperer le nom et le mdp dans le formulaire
