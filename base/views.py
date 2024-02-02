@@ -5,6 +5,8 @@ from django.db.models import Q # import the Q lookup method
 from django.contrib.auth.models import User
 from .models import Room, Topic # importer le modele
 from .forms import RoomForm
+from django.contrib.auth.decorators import login_required # restreoindre accès
+from django.http import HttpResponse
 
 # Create your views here.
 
@@ -92,6 +94,10 @@ def room(request, pk): # on passe le primary pour la valeur dynamique en paramè
 
 
 # C R U D 
+
+# l'uitlisateur doit est connecté
+# sinon redirigé vers la page 'login'
+@login_required(login_url='login')
 def createRoom(request):
     form = RoomForm() # importer le formulare
 
@@ -106,12 +112,19 @@ def createRoom(request):
     context = {'form': form}
     return render (request, 'room_form.html', context)
 
+# l'uitlisateur doit est connecté
+# sinon redirigé vers la page 'login'
+@login_required(login_url='login')
 def updateRoom(request, pk): # pk to know which item will be updated
     # query the room be updated
     room = Room.objects.get(id = pk)
 
     # le formulaire sera pré propulé des donnés du room de l'id qui correspond à pk
     form = RoomForm(instance=room) 
+
+    # Only the host user can update his room
+    if request.user != room.host:
+        return HttpResponse('Your are not allowed to update this room')    
 
     if request.method =='POST':
         # print(request.POST) # Les donnees du form
@@ -126,10 +139,18 @@ def updateRoom(request, pk): # pk to know which item will be updated
     context = {'form': form}
     return render (request, 'room_form.html', context)
 
+# l'uitlisateur doit est connecté
+# sinon redirigé vers la page 'login'
+@login_required(login_url='login')
 def deleteRoom(request, pk):
 
     # savoir le room à supprimer
     room = Room.objects.get(id = pk)
+
+    # Only the host user can delete his room
+    if request.user != room.host:
+        return HttpResponse('Your are not allowed to update this room')    
+    
     if request.method == 'POST':
         room.delete() # on supprimer le room de l'id conncerné
         return redirect('home')
