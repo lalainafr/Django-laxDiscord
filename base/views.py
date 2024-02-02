@@ -1,5 +1,8 @@
 from django.shortcuts import render, redirect
+from django.contrib import messages # flash message
+from django.contrib.auth import authenticate, login, logout # importer auth, logout et login methods
 from django.db.models import Q # import the Q lookup method
+from django.contrib.auth.models import User
 from .models import Room, Topic # importer le modele
 from .forms import RoomForm
 
@@ -11,6 +14,33 @@ from .forms import RoomForm
 #     {'id': 2 , 'name': 'Design with me'},
 #     {'id': 3 , 'name': 'frontend developers'}
 # ]
+
+# formualire de login
+def loginPage(request):
+    # traiter le formulaire
+    if request.method == 'POST':
+        # Récuperer le nom et le mdp dans le formulaire
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        # vérifier si l'utilisateur existe (try/except)
+        try:
+            user = User.objects.get(username=username)
+        except:
+            messages.error(request, "User does no exist.") # message flash
+
+        # Verifier si e credentials sont corrects
+        user = authenticate(request, username=username, password=password)        
+
+        # si l'utilisateur existe on fait l'authentification et la redirection
+        if user is not None:
+            login(request, user)
+            return redirect('home')
+        else:
+            messages.error(request, "Username or password doesn't exists") # message flash
+
+    context = {}
+    return render(request, 'login_register.html', context)    
 
 def home(request):
 
