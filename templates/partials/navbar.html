@@ -12,8 +12,15 @@
 
 </form>
 
-<!-- login form -->
-<a href="{% url 'login' %}">Login </a>
+<!-- Si l’utilisateur est authentifié, faire apparaitre le bouton ‘LOGOUT’ -->
+{% if request.user.is_authenticated %}
+    <a href="{% url 'logout' %}">Logout </a>
+{% else %}
+    <!-- sinon juste le login -->
+    <!-- login form -->
+    <a href="{% url 'login' %}">Login </a>
+{% endif %}
+
 
 
 <hr>

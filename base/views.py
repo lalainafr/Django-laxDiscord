@@ -42,6 +42,11 @@ def loginPage(request):
     context = {}
     return render(request, 'login_register.html', context)    
 
+# logout
+def logoutUser(request):
+    logout(request)
+    return redirect('home')
+
 def home(request):
 
     # q = whatever we passed in the url
