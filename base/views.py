@@ -7,6 +7,7 @@ from .models import Room, Topic # importer le modele
 from .forms import RoomForm
 from django.contrib.auth.decorators import login_required # restreoindre accès
 from django.http import HttpResponse
+from django.contrib.auth.forms import UserCreationForm
 
 # Create your views here.
 
@@ -20,13 +21,16 @@ from django.http import HttpResponse
 # formualire de login
 def loginPage(request):
 
-    if request.user.is_autheticated:
+    # identifier la page de login
+    page = 'login '
+
+    if request.user.is_authenticated:
         return redirect('home')
 
     # traiter le formulaire
     if request.method == 'POST':
         # Récuperer le nom et le mdp dans le formulaire
-        username = request.POST.get('username')
+        username = request.POST.get('username').lower()
         password = request.POST.get('password')
 
         # vérifier si l'utilisateur existe (try/except)
@@ -45,9 +49,34 @@ def loginPage(request):
         else:
             messages.error(request, "Username or password doesn't exists") # message flash
 
-    context = {}
+    context = {'page': page}
     return render(request, 'login_register.html', context)    
 
+# registration
+def registerPage(request):
+
+    # créer le form registration
+    form = UserCreationForm()
+
+    # traiter le formulaire
+    if request.method == 'POST':
+
+        # on créer le formulaire à partir de tous le credential (username, password...)
+        form = UserCreationForm(request.POST)
+
+
+        if form.is_valid(): # on verifie si le formulaire est valide
+            user = form.save(commit=False) # on va encore traiter l'objet
+            user.username = user.username.lower() # on met le username en lowercase
+            user.save() # on enregistre les donneés en bdd
+            login(request, user)  # on log le user juste après l'inscription
+            redirect('home') # on redirige le user vers la page d'accueil
+        else:
+            messages.error(request, "An error occured during registration") # message flash        
+
+    context = {'form': form}
+    return render(request, 'login_register.html', context)
+    
 # logout
 def logoutUser(request):
     logout(request)
