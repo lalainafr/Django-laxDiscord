@@ -3,7 +3,7 @@ from django.contrib import messages # flash message
 from django.contrib.auth import authenticate, login, logout # importer auth, logout et login methods
 from django.db.models import Q # import the Q lookup method
 from django.contrib.auth.models import User
-from .models import Room, Topic # importer le modele
+from .models import Room, Topic, Message # importer le modele
 from .forms import RoomForm
 from django.contrib.auth.decorators import login_required # restreoindre accès
 from django.http import HttpResponse
@@ -117,11 +117,37 @@ def home(request):
 
 def room(request, pk): # on passe le primary pour la valeur dynamique en paramètre)
     room = Room.objects.get(id = pk)
+
+    participants = room.participants.all
+    # acceder aux participants
+
+    room_messages = room.message_set.all().order_by('-created') 
+    # ordered by the most recent message 
+    # query child object of a specific room
+    # give the message set to this room
+
+    # Créer le message tapé par l'utilisateur
+    # traiter le formulaire
+    if request.method =='POST':
+        # créer un message
+        message = Message.objects.create(
+            # set the room, user and the body field
+            user = request.user,
+            room = room,
+            body = request.POST.get('body')
+            # recupérer le body tapé du formulaire
+        )   
+
+        # rajouter le participant qui a posté un commentaire
+        room.participants.add(request.user)
+
+        return redirect('room', pk=room.id)
+
     # room = None
     # for i in rooms: # on boucle sur la liste des rooms
     #     if i['id'] == int(pk): # s'il y a un id qui match avec le pk (primary key)
     #         room = i # on prend sa valeur et on le passe dans le context du template
-    context = {'room': room}
+    context = {'room': room, 'room_messages': room_messages, 'participants': participants}
 
     return render(request,'room.html', context)
 

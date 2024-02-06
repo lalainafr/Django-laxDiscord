@@ -3,6 +3,58 @@
 
 {% block content%}
 
-<h1>Room template</h1>
+<style>
+    .room-container{
+        display: grid;
+        grid-template-columns: 3fr 1fr;
+    }
+    
+</style>
+<h1>{{room.name}}</h1>
 
-{% endblock %}
+<div class="room-container">
+
+    <div>
+        <p> {{room.description}}</p>
+        
+        <!-- Liste des commentaaires -->
+        <div class="comment-wrapper">
+            <h3>Conversation</h3>
+            <hr>
+            {% for message in room_messages %}
+            <div>
+                <small>@{{message.user}} -  {{message.created|timesince}} ago </small>
+                <p>{{message.body}}</p>
+            </div>
+            <hr>
+            {% endfor%}
+        </div>
+        
+        <!-- Formulaire pour que l'utilisateur puisse poster un commentaire -->
+        
+        {% if request.user.is_authenticated %}
+        <!-- seul un user connecté pourra poster un message -->
+        
+        <div class="comment-form">
+            <form method="POST" action="">
+                {% csrf_token %}
+                <input type="text" name="body" placeholder="Entrez votre message">
+            </form>    
+        </div>
+        {% endif %}
+        
+    </div>
+    <!-- Participant column -->
+    <div>
+        <h3>Participants</h3>
+        <hr>
+        {% for participant in participants%}
+        <ul>
+            <p>@{{participant.username}}</p>
+
+        </ul>
+        {% endfor %}
+    </div>
+</div>
+    
+    {% endblock %}
