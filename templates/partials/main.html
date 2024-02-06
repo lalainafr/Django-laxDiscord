@@ -1,8 +1,18 @@
 <!DOCTYPE html>
+{% load static %}
+<!-- veut dire qu'on utilise staticfiles dsans le template -->
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- il va chercher le fichier css dans le dossier 'static' -->
+    <link rel="stylesheet" href="{% static 'styles/main.css'%}"> 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter&family=Raleway&family=Roboto+Flex&display=swap" rel="stylesheet">
+
+
     <title>lax-Discord</title>
 </head>
 <body>

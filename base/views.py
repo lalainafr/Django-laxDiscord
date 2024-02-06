@@ -87,7 +87,7 @@ def home(request):
     # q = whatever we passed in the url
     q = request.GET.get('q') if request.GET.get('q') != None else ''
 
-    # Q llookup method
+    # Q lookup method
     rooms = Room.objects.filter(
         # on peux faire plusieurs filtre avec le '&' ou '|'
         # -> contient le contenu du 'q' soit sur le topic, la description  ou le nom du room

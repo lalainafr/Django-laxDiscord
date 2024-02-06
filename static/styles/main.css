@@ -1,0 +1,14 @@
+body{
+    background-color: rgb(60, 61, 79);
+    font-family: 'Inter', sans-serif;
+    color: rgb(232, 233, 233);
+}
+
+a{
+    color: rgb(200, 187, 187);
+}
+
+img{
+    height: 150px;
+    width: 150px;
+}
