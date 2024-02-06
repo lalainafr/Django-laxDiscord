@@ -155,6 +155,18 @@ def room(request, pk): # on passe le primary pour la valeur dynamique en paramè
 
     return render(request,'room.html', context)
 
+def userProfile(request, pk):
+    # reccueuillir touts les informations sur le user
+    user = User.objects.get(id=pk)
+    
+    # acceder à des données des enfants de l'objet
+    rooms = user.room_set.all() # pour le volet 'feed_compoenent' dans le profile
+    room_messages = user.message_set.all() # pour le volet 'participant_component' dans le profile
+
+    topics = Topic.objects.all() # pour le volet 'topic search' dans profile
+
+    context = {'user' : user, 'rooms': rooms, 'topics': topics, 'room_messages': room_messages}
+    return render(request, 'profile.html', context)
 
 # C R U D 
 

@@ -8,15 +8,17 @@
             <a href="{% url 'delete-room' room.id %}">Delete</a>
         {% endif %}
             <!-- Faire un query à partir du modele parent (room) -->
-            <span>@{{room.host.username}}</span>
-            <h5> {{room.id}} -   
-                <a href="/room/{{room.id}}">
-                    {{room.name}}
-                </a>
-            </h5>
-            <p>{{room.description}}</p>
-            <small>{{room.topic.name}}</small>
-            <hr>    
+        <a href="{% url 'user-profile' room.host.id %}">@{{room.host.username}}</a>
+        <!-- sur clic va rediriger vers la page du profil de l'utilisateur -->
+
+        <h5> {{room.id}} -   
+            <a href="/room/{{room.id}}">
+                {{room.name}}
+            </a>
+        </h5>
+        <p>{{room.description}}</p>
+        <small>{{room.topic.name}}</small>
+        <hr>    
     </div>
     {% endfor %}
 </div>
