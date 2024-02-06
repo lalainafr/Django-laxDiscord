@@ -181,7 +181,11 @@ def createRoom(request):
         # print(request.POST.get('name')) # Les donnees d'un field dans le form
         form = RoomForm(request.POST)
         if form.is_valid(): # verifier si les données sont valides
-            form.save() # on enregistre les données dans la BDD
+            room = form.save(commit=False) # on enregistre plustard les données dans la BDD
+            # on fait un traitement avant de faire le commit
+            room.host = request.user
+            room.save()
+            
             return redirect('home') # rediriger vers la page d'accueil
 
     context = {'form': form}

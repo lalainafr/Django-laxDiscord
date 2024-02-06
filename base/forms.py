@@ -8,3 +8,4 @@ class RoomForm(ModelForm):
         model = Room # spécifier le modele
         fields = "__all__" #  specify all fields inside the model
         # fields = ['name', 'body'] #  specify  some fields inside the model
+        exclude = ['host','participants'] # ne pas mettre ces champs dans le formulaire
