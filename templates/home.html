@@ -15,21 +15,9 @@
 <div class="home-container">
 
 
-    <!-- sidebar -->
+    <!-- Topiv sidebar -->
     <div>
-        <h3>Browse Topic</h3>
-        <hr>
-        <div>
-            <a href="{% url 'home' %}">All</a>
-        </div>
-        {% for topic in topics%}
-            <div>
-                <!-- on va à la meme page -->
-                <!-- ?q= query,  -->
-                <a href="{% url 'home' %}?q={{topic.name}}">{{topic.name}}</a>    
-
-            </div>
-        {% endfor %}
+        {% include 'topic_component.html'%}
     </div>
     
     <!-- Content- list of rooms-->
@@ -38,43 +26,12 @@
         <h5>{{room_count}} rooms available </h5>
         <!-- # rediriger vers create-room  -->
         <a href="{% url 'create-room' %}"">Create Room</a>
-        {% for room in rooms %}
-        <div>
-            <!-- delete/ update only for the room owner -->
-            {% if request.user == room.host %}
-                <!-- # rediriger vers update-room avec room.id en parametre     -->
-                <a href="{% url 'update-room' room.id %}">Update</a>
-                <a href="{% url 'delete-room' room.id %}">Delete</a>
-            {% endif %}
-                <!-- Faire un query à partir du modele parent (room) -->
-                <span>@{{room.host.username}}</span>
-                <h5> {{room.id}} - 
-                    <a href="/room/{{room.id}}">
-                        {{room.name}}
-                    </a>
-                </h5>
-                <p>{{room.description}}</p>
-                <small>{{room.topic.name}}</small>
-                <hr>    
-        </div>
-        {% endfor %}
+        {% include 'feed_component.html' %}
     </div>
 
     <!-- recent activities -->
     <div>
-        <h3>Recent activities</h3>
-        <hr>
-        {% for message in room_messages %}
-            <div>
-                <small>@{{message.user}} {{message.created|timesince}}</small>
-                <small>replied to " {{message.room}} "</small>
-                <!-- output the string representation of the object, limité a 50 caratères -->
-                <!-- au lieu de {{message.body}} -->
-                <p> {{message}}</p>
-                
-
-            </div>
-        {% endfor %}
+       {% include 'activity_component.html'%}
     </div>
 </div>
 

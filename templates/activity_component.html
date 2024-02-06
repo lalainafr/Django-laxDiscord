@@ -1,0 +1,16 @@
+<h3>Recent activities</h3>
+<hr>
+{% for message in room_messages %}
+    <div>
+        <small>@{{message.user}} {{message.created|timesince}}</small>
+        <small>replied to " {{message.room}} "</small>
+        <!-- output the string representation of the object, limité a 50 caratères -->
+        <!-- au lieu de {{message.body}} -->
+        <p> {{message}}</p>
+        <!-- only message owner can delete hos message -->
+        {% if request.user == message.user %}
+        <a href="{% url 'delete-message' message.id %}">Delete</a>
+        {% endif %}
+        <hr>
+    </div>
+{% endfor %}

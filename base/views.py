@@ -111,7 +111,8 @@ def home(request):
     room_count = rooms.count()
 
     # liste des messages d'un room pour le RECENT ACTIVITY template
-    room_messages = Message.objects.all()
+    room_messages = Message.objects.all().filter(Q(room__topic__name__icontains=q))
+    # on utile le Q pour filtrer par topic recent activity
 
     context = {'rooms': rooms, 'topics': topics, 'room_count': room_count, 'room_messages': room_messages}
     # données à faire passer danns le template
