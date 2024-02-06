@@ -110,7 +110,10 @@ def home(request):
     # compter le nombre de room et le passer dans le context pour le template
     room_count = rooms.count()
 
-    context = {'rooms': rooms, 'topics': topics, 'room_count': room_count}
+    # liste des messages d'un room pour le RECENT ACTIVITY template
+    room_messages = Message.objects.all()
+
+    context = {'rooms': rooms, 'topics': topics, 'room_count': room_count, 'room_messages': room_messages}
     # données à faire passer danns le template
 
     return render(request,'home.html', context)
@@ -200,6 +203,7 @@ def updateRoom(request, pk): # pk to know which item will be updated
 
 # l'uitlisateur doit est connecté
 # sinon redirigé vers la page 'login'
+# supprimer un room
 @login_required(login_url='login')
 def deleteRoom(request, pk):
 
@@ -216,4 +220,24 @@ def deleteRoom(request, pk):
     
     # on passe en context l'objet room à supprimer
     return render(request, 'delete.html', {'obj': room})
+
+# supprimer un message
+def deleteMessage(request, pk):
+    
+    # savoir le message à supprimer
+    message = Message.objects.get(id = pk)
+
+    # Only the host user can delete his room
+    if request.user != message.user:
+        return HttpResponse('Your are not allowed to update this room')    
+    
+    if request.method == 'POST':
+        message.delete() # on supprimer le room de l'id conncerné
+        return redirect('home')
+    
+    # on passe en context l'objet room à supprimer
+    return render(request, 'delete.html', {'obj': message})
+    # le template 'delete.html' c'est un template DYNAMIQUE 
+    # servira pour effectuer un delete sur n'importe quel objet (message, room...)
+
 

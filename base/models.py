@@ -60,6 +60,12 @@ class Message(models.Model):
     created = models.DateTimeField(auto_now_add=True)
         #auto_now_add=True -> take  a timestamp when we first save or create the instance
 
+ # render new item first
+    class Meta:
+        ordering = ['-updated', '-created']
+        # reverse ordering
+        # order to show the newest message first
+
     # string representation of the class
     def __str__(self):
         return self.body[0:50] # first 50 caracters
