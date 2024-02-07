@@ -176,19 +176,38 @@ def userProfile(request, pk):
 def createRoom(request):
     form = RoomForm() # importer le formulare
 
+    # on prend la liste des topics et on les passe en contexte
+    # pour le dropdown du template
+    topics = Topic.objects.all() 
+
     if request.method =='POST':
+        # customise form
+        topic_name =  request.POST.get('topic')
+        topic, created = Topic.objects.get_or_create(name=topic_name)
+        # va retourner un objet ou bien va retourner un ojbet et le créera apres dans le dropdown
+
+        # On utilisera la methode 'create' car on doit customiser la section 'topic'
+        Room.objects.create(
+            host =  request.user,
+            topic =  topic, # on aura soit le new topic, ou ceux dans la bdd
+            name = request.POST.get('name'),
+            description = request.POST.get('description'),
+        )
+
+        return redirect('home') # rediriger vers la page d'accueil
+
+        # ON NE VA PAS UTILISER LE FORMULAIRE NORMAL
         # print(request.POST) # Les donnees du form
         # print(request.POST.get('name')) # Les donnees d'un field dans le form
-        form = RoomForm(request.POST)
-        if form.is_valid(): # verifier si les données sont valides
-            room = form.save(commit=False) # on enregistre plustard les données dans la BDD
-            # on fait un traitement avant de faire le commit
-            room.host = request.user
-            room.save()
+        # form = RoomForm(request.POST)
+        # if form.is_valid(): # verifier si les données sont valides
+        #     room = form.save(commit=False) # on enregistre plustard les données dans la BDD
+        #     # on fait un traitement avant de faire le commit
+        #     room.host = request.user
+        #     room.save()
             
-            return redirect('home') # rediriger vers la page d'accueil
 
-    context = {'form': form}
+    context = {'form': form, 'topics': topics}
     return render (request, 'room_form.html', context)
 
 # l'uitlisateur doit est connecté
@@ -200,6 +219,10 @@ def updateRoom(request, pk): # pk to know which item will be updated
 
     # le formulaire sera pré propulé des donnés du room de l'id qui correspond à pk
     form = RoomForm(instance=room) 
+
+      # on prend la liste des topics et on les passe en contexte
+    # pour le dropdown du template
+    topics = Topic.objects.all() 
 
     # Only the host user can update his room
     if request.user != room.host:
@@ -215,7 +238,7 @@ def updateRoom(request, pk): # pk to know which item will be updated
             form.save() # on enregistre les données dans la BDD
             return redirect('home') # rediriger vers la page d'accueil
 
-    context = {'form': form}
+    context = {'form': form,'topics': topics}
     return render (request, 'room_form.html', context)
 
 # l'uitlisateur doit est connecté
