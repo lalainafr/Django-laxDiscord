@@ -229,16 +229,29 @@ def updateRoom(request, pk): # pk to know which item will be updated
         return HttpResponse('Your are not allowed to update this room')    
 
     if request.method =='POST':
+        #  process the form
+         # customise form
+        topic_name =  request.POST.get('topic')
+        topic, created = Topic.objects.get_or_create(name=topic_name)
+        # va retourner un objet ou bien va retourner un ojbet et le créera apres dans le dropdown
+        
+        # get the model and update the values
+        room.name = request.POST.get('name')
+        room.topic = topic # the topic that was created above
+        room.description = request.POST.get('description')   
+
+        room.save()    
+
         # print(request.POST) # Les donnees du form
         # print(request.POST.get('name')) # Les donnees d'un field dans le form
 
-        # specifier le Room to be processed
-        form = RoomForm(request.POST, instance=room)
-        if form.is_valid(): # verifier si les données sont valides
-            form.save() # on enregistre les données dans la BDD
-            return redirect('home') # rediriger vers la page d'accueil
+        # # specifier le Room to be processed
+        # form = RoomForm(request.POST, instance=room)
+        # if form.is_valid(): # verifier si les données sont valides
+        #     form.save() # on enregistre les données dans la BDD
+        return redirect('home') # rediriger vers la page d'accueil
 
-    context = {'form': form,'topics': topics}
+    context = {'form': form,'topics': topics, 'room': room}
     return render (request, 'room_form.html', context)
 
 # l'uitlisateur doit est connecté
