@@ -1,0 +1,28 @@
+{% extends 'partials/main.html' %}
+
+{% block content%}
+
+<hr>
+
+<div class="row">
+    <div class="col-md-5">
+        <h1>Update '{{request.user | upper }}' information </h1>
+        
+        <form method="POST" action="">
+            <!-- a token is sent everytime the form is submited -->
+            <!-- security against cross site- attack -->
+            {% csrf_token %}
+            
+            <!-- mettre en place RoomForm -->
+           {% for field in form %}
+            <div>
+                <label class="form-label" for="">{{field.label}}</label>
+                    {{field}}
+            </div>
+            {% endfor %}
+            <button class="btn btn-primary" type="submit">Submit</button>
+
+        </form>    
+    </div>
+</div>
+{% endblock %}

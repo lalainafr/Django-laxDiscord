@@ -4,7 +4,7 @@ from django.contrib.auth import authenticate, login, logout # importer auth, log
 from django.db.models import Q # import the Q lookup method
 from django.contrib.auth.models import User
 from .models import Room, Topic, Message # importer le modele
-from .forms import RoomForm
+from .forms import RoomForm, UserForm
 from django.contrib.auth.decorators import login_required # restreoindre accès
 from django.http import HttpResponse
 from django.contrib.auth.forms import UserCreationForm
@@ -229,16 +229,29 @@ def updateRoom(request, pk): # pk to know which item will be updated
         return HttpResponse('Your are not allowed to update this room')    
 
     if request.method =='POST':
+        #  process the form
+         # customise form
+        topic_name =  request.POST.get('topic')
+        topic, created = Topic.objects.get_or_create(name=topic_name)
+        # va retourner un objet ou bien va retourner un ojbet et le créera apres dans le dropdown
+        
+        # get the model and update the values
+        room.name = request.POST.get('name')
+        room.topic = topic # the topic that was created above
+        room.description = request.POST.get('description')   
+
+        room.save()    
+
         # print(request.POST) # Les donnees du form
         # print(request.POST.get('name')) # Les donnees d'un field dans le form
 
         # specifier le Room to be processed
-        form = RoomForm(request.POST, instance=room)
-        if form.is_valid(): # verifier si les données sont valides
-            form.save() # on enregistre les données dans la BDD
-            return redirect('home') # rediriger vers la page d'accueil
+        # form = RoomForm(request.POST, instance=room)
+        # if form.is_valid(): # verifier si les données sont valides
+        #     form.save() # on enregistre les données dans la BDD
+        return redirect('home') # rediriger vers la page d'accueil
 
-    context = {'form': form,'topics': topics}
+    context = {'form': form,'topics': topics, 'room': room}
     return render (request, 'room_form.html', context)
 
 # l'uitlisateur doit est connecté
@@ -280,4 +293,21 @@ def deleteMessage(request, pk):
     # le template 'delete.html' c'est un template DYNAMIQUE 
     # servira pour effectuer un delete sur n'importe quel objet (message, room...)
 
+# l'uitlisateur doit est connecté
+# sinon redirigé vers la page 'login'
+# supprimer un room
+@login_required(login_url='login')
+def updateUser(request):
+    user = request.user
+    # le formulaire sera pré propulé des donnéss du user connecté 
+    form = UserForm(instance=user)   
 
+    # process form
+    if request.method =='POST':
+        # specifier le Room to be processed
+        form = UserForm(request.POST, instance=user)
+        if form.is_valid():
+            form.save()
+            return redirect('user-profile', pk= user.id )
+    context = {'form': form}
+    return render(request, 'update_user.html', context)

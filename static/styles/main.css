@@ -1,6 +1,8 @@
+
+
+
 body{
-    background-color: rgb(60, 61, 79);
-    font-family: 'Inter', sans-serif;
+    background-color: rgb(42, 43, 62);
     color: rgb(232, 233, 233);
 }
 
@@ -11,4 +13,8 @@ a{
 img{
     height: 150px;
     width: 150px;
+}
+
+.page-header{
+    background-color: rgb(23, 24, 35);
 }

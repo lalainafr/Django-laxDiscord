@@ -2,35 +2,29 @@
 {% extends 'partials/main.html' %}
 
 {% block content%}
-<style>
-.home-container{
-    display: grid;
-    grid-template-columns: 1fr 3fr 1.5fr;
-}
-
-</style>
-
 
 <!-- container -->
-<div class="home-container">
-
-
+<div class="row">
     <!-- Topiv sidebar -->
-    <div>
+    <div class="col-md-2">
         {% include 'topic_component.html'%}
     </div>
     
     <!-- Content- list of rooms-->
-    <div>
+    <div class="col-md-6">
         <!-- # compter le nombre de Room -->
-        <h5>{{room_count}} rooms available </h5>
+        <h6>{{room_count}} rooms available ...</h6>
+        <br>
         <!-- # rediriger vers create-room  -->
-        <a href="{% url 'create-room' %}"">Create Room</a>
+        <p>
+            <a href="{% url 'create-room' %}"">CREATE ROOM</a>
+        </p>
+        <br>
         {% include 'feed_component.html' %}
     </div>
-
+    
     <!-- recent activities -->
-    <div>
+    <div class="col-md-3">
        {% include 'activity_component.html'%}
     </div>
 </div>
