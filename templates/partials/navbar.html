@@ -24,6 +24,8 @@
             <!-- Si l’utilisateur est authentifié, faire apparaitre le bouton ‘LOGOUT’ -->
             {% if request.user.is_authenticated %}
             <p>Hello {{ request.user }} ....</p>
+            <a href="{% url 'update-user' %}">Update User </a>
+            <br>
             <a href="{% url 'logout' %}">Logout </a>
             {% else %}
             <!-- sinon juste le login -->
@@ -32,4 +34,3 @@
             {% endif %}
         </div>
     </div>
-    
