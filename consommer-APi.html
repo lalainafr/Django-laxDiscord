@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>Liste de rooms</h1>
+    <div id="contenu-api"></div>
+  </body>
+  <script>
+    let content = document.getElementById("contenu-api");
+    let getRooms = async () => {
+      let response = await fetch("http://127.0.0.1:8000/api/rooms");
+      let rooms = await response.json();
+      for (let i = 0; i < rooms.length; i++) {
+        let room = rooms[i];
+        let row = `<div>
+            <h3> ${room.name} </h3>
+            </div>`;
+        content.innerHTML += row;
+      }
+    };
+    getRooms();
+  </script>
+</html>
