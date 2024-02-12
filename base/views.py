@@ -4,13 +4,16 @@ from django.contrib.auth import authenticate, login, logout # importer auth, log
 from django.db.models import Q # import the Q lookup method
 # from django.contrib.auth.models import User --> user par defaut de django
 from .models import Room, Topic, Message,User # importer les modele, u compris custom User 
-from .forms import RoomForm, UserForm
 from django.contrib.auth.decorators import login_required # restreoindre accès
 from django.http import HttpResponse
 
 # default user creaation form
 # on le mets dans form directement
 # from django.contrib.auth.forms import UserCreationForm # 
+
+# mettre le new form créer dans forms.py
+from .forms import RoomForm, UserForm, MyUserCreationForm
+
 
 # Create your views here.
 
@@ -59,14 +62,15 @@ def loginPage(request):
 def registerPage(request):
 
     # créer le form registration
-    form = UserCreationForm()
+    # form = UserCreationForm() --> replace to MyUserRegistrationForm
+    form = MyUserCreationForm()
 
     # traiter le formulaire
     if request.method == 'POST':
 
         # on créer le formulaire à partir de tous le credential (username, password...)
-        form = UserCreationForm(request.POST)
-
+        form = MyUserCreationForm(request.POST)
+        # UserCreationForm() --> replace to MyUserRegistrationForm
 
         if form.is_valid(): # on verifie si le formulaire est valide
             user = form.save(commit=False) # on va encore traiter l'objet

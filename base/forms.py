@@ -2,6 +2,14 @@ from django.forms import ModelForm
 from .models import Room, User
 from django.contrib.auth.forms import UserCreationForm 
 
+
+
+# create form for registration
+class MyUserCreationForm(UserCreationForm):
+    class Meta:
+        model = User
+        fields = ['name', 'username', 'email', 'password1', 'password2']
+
 # create MODELFORM for ROOM
 class RoomForm(ModelForm):
     class Meta:
