@@ -2,12 +2,11 @@
 
 
 body{
-    background-color: rgb(42, 43, 62);
-    color: rgb(232, 233, 233);
+    color: rgb(95, 100, 100);
 }
 
 a{
-    color: rgb(200, 187, 187);
+    color: rgb(146, 112, 112);
 }
 
 img{
@@ -16,5 +15,5 @@ img{
 }
 
 .page-header{
-    background-color: rgb(23, 24, 35);
+    background-color: rgb(75, 75, 85);
 }

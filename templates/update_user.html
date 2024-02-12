@@ -1,28 +1,34 @@
-{% extends 'partials/main.html' %}
+{% extends 'partials/main.html' %} {% block content%}
 
-{% block content%}
+<style>
+  .avatar {
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+  }
+</style>
 
-<hr>
+<hr />
 
 <div class="row">
-    <div class="col-md-5">
-        <h1>Update '{{request.user | upper }}' information </h1>
-        
-        <form method="POST" action="">
-            <!-- a token is sent everytime the form is submited -->
-            <!-- security against cross site- attack -->
-            {% csrf_token %}
-            
-            <!-- mettre en place RoomForm -->
-           {% for field in form %}
-            <div>
-                <label class="form-label" for="">{{field.label}}</label>
-                    {{field}}
-            </div>
-            {% endfor %}
-            <button class="btn btn-primary" type="submit">Submit</button>
+  <div class="col-md-5">
+    <h1>Update '{{request.user | upper }}' information</h1>
 
-        </form>    
-    </div>
+    <form method="POST" action="" enctype="multipart/form-data">
+      <!-- enctype... veut dire qu'on peut soumettre des fichiers avec ce formulaire  -->
+      <!-- a token is sent everytime the form is submited -->
+      <!-- security against cross site- attack -->
+      {% csrf_token %}
+
+      <!-- mettre en place RoomForm -->
+      {% for field in form %}
+      <div>
+        <label class="form-label" for="">{{field.label}}</label>
+        {{field}}
+      </div>
+      {% endfor %}
+      <button class="btn btn-primary" type="submit">Submit</button>
+    </form>
+  </div>
 </div>
 {% endblock %}

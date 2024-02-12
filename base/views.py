@@ -7,7 +7,10 @@ from .models import Room, Topic, Message,User # importer les modele, u compris c
 from .forms import RoomForm, UserForm
 from django.contrib.auth.decorators import login_required # restreoindre accès
 from django.http import HttpResponse
-from django.contrib.auth.forms import UserCreationForm
+
+# default user creaation form
+# on le mets dans form directement
+# from django.contrib.auth.forms import UserCreationForm # 
 
 # Create your views here.
 
@@ -305,7 +308,8 @@ def updateUser(request):
     # process form
     if request.method =='POST':
         # specifier le Room to be processed
-        form = UserForm(request.POST, instance=user)
+        form = UserForm(request.POST, request.FILES, instance=user)
+        # envoyer dans le formulare aussi le FILE
         if form.is_valid():
             form.save()
             return redirect('user-profile', pk= user.id )
