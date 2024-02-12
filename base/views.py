@@ -36,24 +36,24 @@ def loginPage(request):
     # traiter le formulaire
     if request.method == 'POST':
         # Récuperer le nom et le mdp dans le formulaire
-        username = request.POST.get('username').lower()
+        email = request.POST.get('email').lower()
         password = request.POST.get('password')
 
         # vérifier si l'utilisateur existe (try/except)
         try:
-            user = User.objects.get(username=username)
+            user = User.objects.get(email=email)
         except:
             messages.error(request, "User does no exist.") # message flash
 
         # Verifier si e credentials sont corrects
-        user = authenticate(request, username=username, password=password)        
+        user = authenticate(request, email=email, password=password)        
 
         # si l'utilisateur existe on fait l'authentification et la redirection
         if user is not None:
             login(request, user)
             return redirect('home')
         else:
-            messages.error(request, "Username or password doesn't exists") # message flash
+            messages.error(request, "email or password doesn't exists") # message flash
 
     context = {'page': page}
     return render(request, 'login_register.html', context)    

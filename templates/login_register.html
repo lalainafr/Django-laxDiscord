@@ -1,55 +1,45 @@
-{% extends 'partials/main.html' %}
-
-{% block content %}
-
-{% if page == 'login '%}
+{% extends 'partials/main.html' %} {% block content %} {% if page == 'login '%}
 
 <!-- creer le formualire de LOGIN -->
-<div class="row" >
-    <div class="col-md-6">
+<div class="row">
+  <div class="col-md-6">
+    <h1>LOGIN - REGISTRATION FORM</h1>
 
-        <h1>REGISTRATION FORM </h1>
-        
-        <br>
-        <br>
-        <br>
-        <form method="POST" action="" >
-            {% csrf_token %}
-            <div>
-                <label class="form-label">Username:</label>
-                <input type="text" name="username" placeholder="Enter Username">
-            </div>
-            <br>
-            <div>
-                <label class="form-label">Password:</label>
-                <input type="password" name="password" placeholder="Enter Password">
-            </div>
-            <br>
-            <div>
-                <input class="btn btn-primary" type="submit" value="Login">
-            </div>
-        </form>
-        <br>
-        <br>
-        <p>Haven't signed up yet?</p>
-        <br>
-        <br>
-        <a href="{% url 'register' %}">Sign up</a>
-    </div>
+    <br />
+    <br />
+    <br />
+    <form method="POST" action="">
+      {% csrf_token %}
+      <div>
+        <label class="form-label">Email:</label>
+        <input type="text" name="email" placeholder="Enter email" />
+      </div>
+      <br />
+      <div>
+        <label class="form-label">Password:</label>
+        <input type="password" name="password" placeholder="Enter Password" />
+      </div>
+      <br />
+      <div>
+        <input class="btn btn-primary" type="submit" value="Login" />
+      </div>
+    </form>
+    <br />
+    <br />
+    <p>Haven't signed up yet?</p>
+    <br />
+    <br />
+    <a href="{% url 'register' %}">Sign up</a>
+  </div>
 </div>
-    
+
 {% else %}
 <!-- creer le formualire de REGISTRATION -->
 <div>
-    <form method="POST" action="" >
-        {% csrf_token %}
-        
-        {{ form.as_p }}
-        
-        <input type="submit" value="Register">
-    </form>
+  <form method="POST" action="">
+    {% csrf_token %} {{ form.as_p }}
+
+    <input type="submit" value="Register" />
+  </form>
 </div>
-{% endif %}
-
-
-{% endblock %}
+{% endif %} {% endblock %}
