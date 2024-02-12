@@ -2,8 +2,8 @@ from django.shortcuts import render, redirect
 from django.contrib import messages # flash message
 from django.contrib.auth import authenticate, login, logout # importer auth, logout et login methods
 from django.db.models import Q # import the Q lookup method
-from django.contrib.auth.models import User
-from .models import Room, Topic, Message # importer le modele
+# from django.contrib.auth.models import User --> user par defaut de django
+from .models import Room, Topic, Message,User # importer les modele, u compris custom User 
 from .forms import RoomForm, UserForm
 from django.contrib.auth.decorators import login_required # restreoindre accès
 from django.http import HttpResponse

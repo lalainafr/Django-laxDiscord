@@ -42,6 +42,12 @@ INSTALLED_APPS = [
     'corsheaders',
 ]
 
+# spécifie le User modele à utiliser 
+# mais pas celui fournit par défaut par django
+AUTH_USER_MODEL = 'base.User'
+
+
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'corsheaders.middleware.CorsMiddleware',

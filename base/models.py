@@ -1,5 +1,18 @@
 from django.db import models
-from django.contrib.auth.models import User # import default django user model
+# from django.contrib.auth.odels import User # import default django user model
+from django.contrib.auth.models import AbstractUser
+
+class User(AbstractUser):
+    pass
+    name = models.CharField(max_length=200, null=True)
+    email = models.EmailField(unique=True, null=True)
+    bio = models.TextField(null=True)
+
+    # avatar =
+
+    USERNAME_FIELD = 'email' # le user sera identifié par son email
+    REQUIRED_FIELDS = []
+
 
 # Create your models here.
 class Topic(models.Model):
