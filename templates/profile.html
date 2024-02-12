@@ -1,34 +1,30 @@
-
-{% extends 'partials/main.html' %}
-
-{% block content%}
+{% extends 'partials/main.html' %} {% block content%}
 
 <style>
-    .profile-container{
-        display: grid;
-        grid-template-columns: 1fr 3fr 2fr;
-    }
+  .profile-container {
+    display: grid;
+    grid-template-columns: 1fr 3fr 2fr;
+  }
+  .avatar-profile {
+    border-radius: 50%;
+  }
 </style>
-<h1>PROFILE OF '{{user.username}}' </h1>
-<br>
-<br>
+
+<img class="avatar-profile" src="{{user.avatar.url}}" alt="" />
+
+<h1>PROFILE OF '{{user.username}}'</h1>
+<br />
+<br />
 
 <div class="profile-container">
-    
-    <!-- topic  search -->
-    <div>  
-        {% include 'topic_component.html' %}
-    </div>
-    
-    <!-- feed -->
-    <div>
-        {% include 'feed_component.html' %}
-    </div>
-    
-    <!-- activity -->
-    <div>
-        {% include 'activity_component.html' %}
-    </div>
+  <!-- topic  search -->
+  <div>{% include 'topic_component.html' %}</div>
+
+  <!-- feed -->
+  <div>{% include 'feed_component.html' %}</div>
+
+  <!-- activity -->
+  <div>{% include 'activity_component.html' %}</div>
 </div>
 
 {% endblock %}
